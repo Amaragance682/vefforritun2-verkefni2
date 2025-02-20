@@ -74,8 +74,6 @@ router.post('/spurningar/:category', async (req, res) => {
 		})
 	);
 
-	console.log(answers_from_user);
-
 	const realAnswersResult = await db?.query(`
 		SELECT question_id as q_id, answers.id as a_id FROM answers, questions
 		WHERE is_correct = true
@@ -90,12 +88,11 @@ router.post('/spurningar/:category', async (req, res) => {
 			a_id: (question.a_id-1) % 4
 		}
 	});
-	console.log(realAnswers);
 
 	const result = [];
 
-	realAnswers.forEach((answer) => {
-		const user_answer = Number(answers_from_user[answer.q_id-1])
+	realAnswers.forEach((answer, aId) => {
+		const user_answer = Number(answers_from_user[aId])
 		if (user_answer === answer.a_id) {
 			result.push({
 				correct: user_answer,
