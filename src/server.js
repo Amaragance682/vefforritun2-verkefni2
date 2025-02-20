@@ -2,6 +2,7 @@ import express from 'express';
 import { router } from './routes.js';
 import path from 'node:path';
 import { fileURLToPath } from 'url';
+import process from 'node:process';
 
 
 const app = express();
@@ -20,9 +21,20 @@ app.set('view engine', 'ejs');
 
 app.use('/', router);
 
-const hostname = '127.0.0.1';
-const port = 3000;
+app.use((req, res) => {
+  res.status(404).render('error', { title: '404', error: 'Síða fannst ekki' });
+});
+
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).render('error', { title: '500', error: 'Villa kom upp' });
+});
+
+const hostname = process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost';
+const port = process.env.PORT || 3000;
 
 app.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+  console.log(`Server running at ${process.env.NODE_ENV === 'production'
+    ? 'https://vefforritun2-verkefni2.onrender.com'
+    : `http://${hostname}`}:${port}/`);
 });
