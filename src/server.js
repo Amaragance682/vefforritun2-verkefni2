@@ -3,6 +3,9 @@ import { router } from './routes.js';
 import path from 'node:path';
 import { fileURLToPath } from 'url';
 import process from 'node:process';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 
 const app = express();
