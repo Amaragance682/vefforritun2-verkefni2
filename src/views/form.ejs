@@ -1,0 +1,31 @@
+<%- include('header') -%>
+
+<form method="post" action="/form">
+  <% if (error) { %>
+	  <p class="error-message"><%= error %></p>
+	<% } %>
+
+	<label for="category">Veldu flokk:</label>
+	<select name="category" required>
+		<% categories.forEach((category, cIndex) => { %>
+			<option value="<%= category.id %>"><%= category.name %></option>
+		<% }) %>
+	</select>
+
+  <label for="question">Spurning:</label>
+  <textarea type="text" id="question" name="question"></textarea>
+
+  <label for="answers">Svör (fjögur, skipt á semikommu):</label>
+  <textarea type="text" id="answers" name="answers"></textarea>
+
+	<label for="right_answer">Hvaða svar er rétt</label>
+	<select name="right_answer" required>
+		<% for (let i = 0; i < 4; i++) { %>
+			<option value="<%= i+1 %>"><%= i+1 %></option>
+		<% } %>
+	</select>
+
+  <button type="submit">Búa til spurningu</button>
+</form>
+
+<%- include('footer') -%>

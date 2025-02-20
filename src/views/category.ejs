@@ -1,0 +1,26 @@
+<%- include('header') -%>
+
+<form method="post" action="/spurningar/<%= id %>">
+<% questions.forEach((question, question_index) => { %>
+  <pre><%= question.question %></pre>
+	<% question.answers.forEach((answer, answer_index) => { %>
+	  <label>
+		  <input name="<%= question_index %>" type="radio" value="<%= answer_index %>"
+			<% if (result) { %>
+			  <% if (result[question_index].incorrect === answer_index) { %>
+				  class="incorrect"
+				<% } if (result[question_index].correct === answer_index) { %>
+				  class="correct"
+				<% } %>
+			<% } %>
+			>
+			<%= answer.answer %>
+		</label>
+	<% }) %>
+<% }) %>
+
+<div class="button-div">
+ <button type="submit">Submit</button>
+</div>
+
+<%- include('footer') -%>
